@@ -1,7 +1,7 @@
 /*
  * @Date: 2023-05-04 15:17:05
  * @Author: 东方小月
- * @LastEditTime: 2023-05-09 14:50:15
+ * @LastEditTime: 2023-05-10 15:55:16
  */
 
 import { Module } from '@nestjs/common';
@@ -18,7 +18,7 @@ import { JwtModule } from '@nestjs/jwt';
 @Module({
   imports: [
     UserModule,
-    JwtModule,
+
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: [envConfig.path],
@@ -40,12 +40,6 @@ import { JwtModule } from '@nestjs/jwt';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard,
-    },
-  ],
+  providers: [AppService],
 })
 export class AppModule {}

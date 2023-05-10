@@ -1,7 +1,7 @@
 /*
  * @Date: 2023-05-04 16:39:46
  * @Author: 东方小月
- * @LastEditTime: 2023-05-06 18:18:42
+ * @LastEditTime: 2023-05-10 15:53:40
  */
 import {
   Controller,
@@ -23,11 +23,6 @@ export class UserController {
   @Post('register')
   register(@Body() createUserDto: RegisterUserDto) {
     return this.userService.register(createUserDto);
-  }
-
-  @Post('login')
-  login(@Body() loginUserDto) {
-    return this.userService.login(loginUserDto);
   }
 
   @Patch(':id')
