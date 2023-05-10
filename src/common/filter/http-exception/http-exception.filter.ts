@@ -1,9 +1,9 @@
 /*
  * @Date: 2023-05-04 15:28:38
  * @Author: 东方小月
- * @LastEditTime: 2023-05-06 17:15:24
+ * @LastEditTime: 2023-05-10 14:07:11
  */
-
+import { ApiException } from './api.exception';
 import {
   ExceptionFilter,
   Catch,
@@ -19,7 +19,15 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
     const status = exception.getStatus();
-    console.log(exception);
+    if (exception instanceof ApiException) {
+      response.status(status).json({
+        code: exception.getErrorCode(),
+        timestamp: new Date().toISOString(),
+        path: request.url,
+        message: exception.getErrorMessage(),
+      });
+      return;
+    }
 
     response.status(status).json({
       code: status,

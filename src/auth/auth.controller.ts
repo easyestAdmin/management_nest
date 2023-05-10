@@ -2,7 +2,7 @@
  * @Description:
  * @Date: 2023-05-06 18:04:31
  * @Author: didi
- * @LastEditTime: 2023-05-10 11:39:32
+ * @LastEditTime: 2023-05-10 14:09:56
  */
 import {
   Controller,
@@ -22,6 +22,7 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { AuthGuard } from './auth.guard';
 import { Public } from 'src/public/public.decorator';
+import { ApiException } from 'src/common/filter/http-exception/api.exception';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -31,7 +32,7 @@ export class AuthController {
   create(@Body() createAuthDto: CreateAuthDto) {
     const { username, password } = createAuthDto;
     if (!username || !password) {
-      return 123;
+      throw new ApiException('用户名密码不能为空', 10012);
     }
     return this.authService.create(createAuthDto);
   }

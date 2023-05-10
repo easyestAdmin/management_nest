@@ -2,7 +2,7 @@
  * @Description:
  * @Date: 2023-05-06 18:04:31
  * @Author: didi
- * @LastEditTime: 2023-05-09 14:48:08
+ * @LastEditTime: 2023-05-10 13:59:30
  */
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
