@@ -1,7 +1,7 @@
 /*
  * @Date: 2023-05-04 15:17:05
  * @Author: 东方小月
- * @LastEditTime: 2023-05-10 15:55:16
+ * @LastEditTime: 2023-05-11 11:22:00
  */
 
 import { Module } from '@nestjs/common';
@@ -12,9 +12,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import envConfig from './config/env';
 import { ConfigService, ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
-import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from './auth/auth.guard';
-import { JwtModule } from '@nestjs/jwt';
+
 @Module({
   imports: [
     UserModule,

@@ -2,7 +2,7 @@
  * @Description:
  * @Date: 2023-05-04 16:39:46
  * @Author: didi
- * @LastEditTime: 2023-05-06 17:10:23
+ * @LastEditTime: 2023-05-10 18:17:33
  */
 import {
   Column,
@@ -39,7 +39,6 @@ export class User {
   update_time: Date;
 
   @BeforeInsert()
-  @BeforeUpdate()
   beforeInsert() {
     this.salt = crypto.randomBytes(4).toString('base64');
     this.password = encry(this.password, this.salt);

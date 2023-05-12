@@ -1,7 +1,7 @@
 /*
  * @Date: 2023-05-04 16:39:46
  * @Author: 东方小月
- * @LastEditTime: 2023-05-10 15:53:24
+ * @LastEditTime: 2023-05-10 16:46:10
  */
 import { Injectable, HttpException, HttpStatus, Inject } from '@nestjs/common';
 import { RegisterUserDto } from './dto/register-user.dto';
@@ -11,13 +11,14 @@ import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { ConfigService } from '@nestjs/config';
-import encry from '../utils/crypto';
+import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
     private configService: ConfigService,
+    private jwtService: JwtService,
   ) {}
 
   async register(registerUserDto: RegisterUserDto) {
@@ -25,6 +26,7 @@ export class UserService {
     const existUser = await this.userRepository.findOne({
       where: { username },
     });
+
     if (existUser)
       throw new HttpException('用户已存在', HttpStatus.BAD_REQUEST);
     try {
@@ -39,12 +41,17 @@ export class UserService {
     const user = await this.userRepository.findOne({
       where: { username },
     });
+
     if (!user) throw new HttpException('用户名不存在', HttpStatus.BAD_REQUEST);
     return user;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async getUser(token) {
+    const payload = await this.jwtService.verifyAsync(token, {
+      secret: this.configService.get('JWT_SECRET'),
+    });
+    console.log(payload);
+    return payload;
   }
 
   remove(id: number) {

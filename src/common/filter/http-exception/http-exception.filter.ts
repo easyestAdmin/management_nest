@@ -1,7 +1,7 @@
 /*
  * @Date: 2023-05-04 15:28:38
  * @Author: 东方小月
- * @LastEditTime: 2023-05-10 14:07:11
+ * @LastEditTime: 2023-05-11 16:31:02
  */
 import { ApiException } from './api.exception';
 import {
@@ -24,7 +24,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
         code: exception.getErrorCode(),
         timestamp: new Date().toISOString(),
         path: request.url,
-        message: exception.getErrorMessage(),
+        describe: exception.getErrorMessage(),
       });
       return;
     }
@@ -33,7 +33,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       code: status,
       timestamp: new Date().toISOString(),
       path: request.url,
-      message: exception.message,
+      describe: exception.message,
     });
   }
 }
