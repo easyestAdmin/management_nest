@@ -3,12 +3,11 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { Role } from '../role/entities/role.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Column, In, Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { ApiException } from 'src/common/filter/http-exception/api.exception';
 import { ApiErrorCode } from 'src/common/enums/api-error-code.enum';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
 
+import { CacheService } from 'src/cache/cache.service';
 @Injectable()
 export class UserService {
   constructor(
@@ -16,6 +15,7 @@ export class UserService {
     private userRepository: Repository<User>,
     @InjectRepository(Role)
     private roleRepository: Repository<Role>,
+    private cacheService: CacheService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -23,7 +23,7 @@ export class UserService {
     const existUser = await this.userRepository.findOne({
       where: { username },
     });
-    console.log(existUser);
+    this.cacheService.set('a', existUser);
 
     if (existUser)
       throw new ApiException('用户已存在', ApiErrorCode.USER_EXIST);
@@ -55,8 +55,8 @@ export class UserService {
     return user;
   }
 
-  test(testParams) {
-    return testParams;
+  async test(testParams) {
+    return await this.cacheService.get('name');
   }
 
   async findPermissionNames(token: string, userInfo) {

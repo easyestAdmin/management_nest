@@ -9,17 +9,16 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-
+import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { UploadModule } from './upload/upload.module';
 import { resolve, join } from 'path';
 import { AuthModule } from './auth/auth.module';
 import { RoleModule } from './role/role.module';
 import { PermissionModule } from './permission/permission.module';
-import { JwtModule } from '@nestjs/jwt';
 import { MenuModule } from './menu/menu.module';
-
+import { createClient } from 'redis';
+import { CacheModule } from './cache/cache.module';
 const isProd = process.env.NODE_ENV == 'production';
 
 @Module({
@@ -47,6 +46,7 @@ const isProd = process.env.NODE_ENV == 'production';
     RoleModule,
     PermissionModule,
     MenuModule,
+    CacheModule,
   ],
   controllers: [AppController],
   providers: [AppService],

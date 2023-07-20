@@ -22,7 +22,7 @@ export class UserController {
   }
 
   @Post('test')
-  @Permissions('read')
+  @Public()
   test(@Body() testParams) {
     return this.userService.test(testParams);
   }
