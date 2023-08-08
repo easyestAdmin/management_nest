@@ -23,6 +23,7 @@ export class Menu {
   parentId: number;
   @Column({
     length: 10,
+    default: 'M',
   })
   menuType: string;
   //菜单图标
@@ -36,6 +37,7 @@ export class Menu {
   //组件路径
   @Column({
     length: 50,
+    nullable: true,
   })
   component: string;
 
@@ -50,6 +52,10 @@ export class Menu {
     nullable: true,
   })
   createBy: string;
+  @Column({
+    nullable: true,
+  })
+  hidden: boolean;
   @CreateDateColumn()
   createTime: Date;
 

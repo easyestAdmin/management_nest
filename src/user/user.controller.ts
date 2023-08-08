@@ -24,6 +24,6 @@ export class UserController {
   @Post('test')
   @Public()
   test(@Body() testParams) {
-    return this.userService.test(testParams);
+    return this.userService.test();
   }
 }

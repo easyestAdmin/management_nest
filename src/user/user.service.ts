@@ -6,7 +6,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { ApiException } from 'src/common/filter/http-exception/api.exception';
 import { ApiErrorCode } from 'src/common/enums/api-error-code.enum';
-
 import { CacheService } from 'src/cache/cache.service';
 @Injectable()
 export class UserService {
@@ -17,13 +16,11 @@ export class UserService {
     private roleRepository: Repository<Role>,
     private cacheService: CacheService,
   ) {}
-
   async create(createUserDto: CreateUserDto) {
     const { username, password, roleIds } = createUserDto;
     const existUser = await this.userRepository.findOne({
       where: { username },
     });
-    this.cacheService.set('a', existUser);
 
     if (existUser)
       throw new ApiException('用户已存在', ApiErrorCode.USER_EXIST);
@@ -55,7 +52,7 @@ export class UserService {
     return user;
   }
 
-  async test(testParams) {
+  async test() {
     return await this.cacheService.get('name');
   }
 

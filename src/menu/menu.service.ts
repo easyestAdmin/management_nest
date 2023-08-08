@@ -39,6 +39,14 @@ export class MenuService {
       [key: string]: Menu;
     }
 
+    //是否为超级管理员,是的话查询所有菜单
+    const isAdmin = userList.roles.find((item) => item.name === '超级管理员');
+    if (isAdmin) {
+      const allMenuList = await this.menuRepository.find();
+
+      return convertToTree(allMenuList);
+    }
+
     const menus: MenuMap = userList?.roles.reduce(
       (mergedMenus: MenuMap, role: any) => {
         role.menus.forEach((menu: Menu) => {
