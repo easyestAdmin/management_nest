@@ -42,7 +42,9 @@ export class MenuService {
     //是否为超级管理员,是的话查询所有菜单
     const isAdmin = userList.roles.find((item) => item.name === '超级管理员');
     if (isAdmin) {
-      const allMenuList = await this.menuRepository.find();
+      const allMenuList = await this.menuRepository.find({
+        order: { orderNum: 'ASC' },
+      });
 
       return convertToTree(allMenuList);
     }
@@ -61,5 +63,14 @@ export class MenuService {
     const uniqueMenus: Menu[] = Object.values(menus);
 
     return convertToTree(uniqueMenus);
+  }
+
+  async update(updateMenuDto: UpdateMenuDto) {
+    const menu = await this.menuRepository.update(
+      { id: updateMenuDto.id },
+      updateMenuDto,
+    );
+    console.log(menu);
+    return menu;
   }
 }
