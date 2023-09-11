@@ -20,7 +20,7 @@ export class Permission {
     length: 100,
     nullable: true,
   })
-  desc: string;
+  message: string;
 
   @CreateDateColumn()
   createTime: Date;
